@@ -1,0 +1,1432 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CINEWORLD | اكتشف أفضل الأفلام والمسلسلات</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Tahoma,sans-serif;
+    background:#080a0f;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button,input{
+    font-family:inherit;
+}
+
+:root{
+    --bg:#080a0f;
+    --bg2:#0d1018;
+    --card:#121722;
+    --purple:#7c3aed;
+    --purple2:#a855f7;
+    --blue:#2563eb;
+    --gold:#d4af37;
+    --text:#e8eaf0;
+    --muted:#969baa;
+    --border:#242a38;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
+    background:rgba(8,10,15,.88);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--purple),var(--blue));
+    box-shadow:0 0 25px rgba(124,58,237,.3);
+    font-size:21px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:2px;
+    background:linear-gradient(90deg,#fff,#d8c7ff,#d4af37);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+nav{
+    display:flex;
+    align-items:center;
+    gap:27px;
+}
+
+nav a{
+    color:#c7cad3;
+    font-size:14px;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#fff;
+}
+
+.hero{
+    min-height:570px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    padding:70px 7%;
+    background:
+        linear-gradient(
+            90deg,
+            #080a0f 8%,
+            rgba(8,10,15,.88) 38%,
+            rgba(8,10,15,.45) 70%,
+            rgba(8,10,15,.15)
+        ),
+        url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1800&q=90");
+    background-size:cover;
+    background-position:center;
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:150px;
+    background:linear-gradient(transparent,#080a0f);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:650px;
+    animation:fadeUp .8s ease;
+}
+
+.small-title{
+    color:var(--gold);
+    font-size:14px;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+.hero h1{
+    font-size:58px;
+    line-height:1.15;
+    margin-bottom:18px;
+}
+
+.hero h1 span{
+    background:linear-gradient(90deg,#fff,#a855f7);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    color:#c2c5ce;
+    font-size:18px;
+    line-height:2;
+    margin-bottom:30px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.primary-btn{
+    display:inline-block;
+    background:linear-gradient(135deg,var(--purple),var(--blue));
+    padding:14px 25px;
+    border-radius:10px;
+    font-weight:bold;
+    box-shadow:0 10px 35px rgba(124,58,237,.25);
+    transition:.3s;
+    border:0;
+    color:#fff;
+    cursor:pointer;
+}
+
+.primary-btn:hover{
+    transform:translateY(-3px);
+}
+
+.secondary-btn{
+    display:inline-block;
+    padding:14px 25px;
+    border:1px solid #3a4050;
+    border-radius:10px;
+    background:rgba(255,255,255,.04);
+    color:#ddd;
+}
+
+.search-section{
+    position:relative;
+    z-index:10;
+    margin-top:-45px;
+    padding:0 6%;
+}
+
+.search-box{
+    max-width:850px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    background:#11151e;
+    border:1px solid #2b3140;
+    border-radius:18px;
+    padding:7px;
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+
+.search-box input{
+    flex:1;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:#fff;
+    padding:15px 18px;
+    font-size:16px;
+}
+
+.search-box input::placeholder{
+    color:#777d8b;
+}
+
+.search-button{
+    width:50px;
+    height:50px;
+    border:0;
+    border-radius:13px;
+    background:linear-gradient(135deg,var(--purple),var(--blue));
+    color:white;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.section{
+    padding:65px 6%;
+}
+
+.section-header{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.section-title{
+    font-size:27px;
+    font-weight:800;
+}
+
+.section-title::after{
+    content:"";
+    display:block;
+    width:45px;
+    height:3px;
+    margin-top:10px;
+    border-radius:10px;
+    background:linear-gradient(90deg,var(--purple),var(--gold));
+}
+
+.section-description{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:10px;
+}
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:15px;
+}
+
+.category{
+    min-height:105px;
+    padding:20px;
+    border-radius:16px;
+    background:linear-gradient(
+        135deg,
+        rgba(124,58,237,.18),
+        rgba(37,99,235,.06)
+    );
+    border:1px solid var(--border);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    transition:.3s;
+}
+
+.category:hover{
+    transform:translateY(-5px);
+    border-color:#6441a5;
+}
+
+.category-icon{
+    font-size:25px;
+    margin-bottom:9px;
+}
+
+.category-name{
+    font-weight:bold;
+}
+
+.movies{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(185px,1fr));
+    gap:22px;
+}
+
+.movie{
+    position:relative;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:.35s;
+}
+
+.movie:hover{
+    transform:translateY(-9px);
+    border-color:#513b83;
+    box-shadow:0 18px 40px rgba(0,0,0,.45);
+}
+
+.poster-container{
+    position:relative;
+    overflow:hidden;
+}
+
+.poster{
+    width:100%;
+    height:275px;
+    object-fit:cover;
+    display:block;
+    transition:.5s;
+    background:#171c28;
+}
+
+.movie:hover .poster{
+    transform:scale(1.05);
+}
+
+.poster-overlay{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.55);
+    opacity:0;
+    transition:.3s;
+}
+
+.movie:hover .poster-overlay{
+    opacity:1;
+}
+
+.play-icon{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--purple),var(--blue));
+    font-size:20px;
+}
+
+.movie-info{
+    padding:14px;
+}
+
+.movie-title{
+    font-size:16px;
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    margin-bottom:8px;
+}
+
+.movie-meta{
+    color:#858b99;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+.rating{
+    color:var(--gold);
+    font-size:13px;
+}
+
+.empty{
+    grid-column:1/-1;
+    text-align:center;
+    padding:50px 20px;
+    color:#969baa;
+    background:#11151e;
+    border:1px solid var(--border);
+    border-radius:16px;
+}
+
+.loading{
+    grid-column:1/-1;
+    text-align:center;
+    padding:50px;
+    color:#aaa;
+}
+
+.featured{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:30px;
+    padding:30px;
+    border-radius:22px;
+    background:linear-gradient(
+        135deg,
+        rgba(124,58,237,.15),
+        rgba(13,16,24,.95)
+    );
+    border:1px solid #282e3d;
+    overflow:hidden;
+}
+
+.featured-image{
+    width:100%;
+    height:330px;
+    object-fit:cover;
+    border-radius:15px;
+}
+
+.featured-content{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.featured-label{
+    color:var(--gold);
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.featured-content h2{
+    font-size:34px;
+    margin-bottom:12px;
+}
+
+.featured-content p{
+    color:#aeb3c0;
+    line-height:1.9;
+    margin-bottom:20px;
+}
+
+.featured-info{
+    display:flex;
+    gap:18px;
+    color:#999eaa;
+    font-size:13px;
+    margin-bottom:22px;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:3000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(10px);
+}
+
+.modal-content{
+    position:relative;
+    width:100%;
+    max-width:900px;
+    max-height:90vh;
+    overflow:auto;
+    background:linear-gradient(135deg,#141925,#0c0f16);
+    border:1px solid #303747;
+    border-radius:22px;
+    padding:28px;
+}
+
+.close{
+    position:absolute;
+    top:15px;
+    left:18px;
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(255,255,255,.07);
+    color:#aaa;
+    font-size:25px;
+    cursor:pointer;
+    z-index:5;
+}
+
+.close:hover{
+    background:#e50914;
+    color:white;
+}
+
+.modal-body{
+    display:flex;
+    gap:28px;
+}
+
+.modal-poster{
+    width:250px;
+    height:360px;
+    object-fit:cover;
+    border-radius:14px;
+}
+
+.modal-info{
+    flex:1;
+    padding-top:15px;
+}
+
+.modal-info h2{
+    font-size:32px;
+    margin-bottom:12px;
+}
+
+.modal-meta{
+    color:#969baa;
+    margin-bottom:12px;
+}
+
+.modal-description{
+    color:#b7bbc5;
+    line-height:2;
+    margin:22px 0;
+}
+
+.trailer-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:13px 22px;
+    border-radius:9px;
+    background:linear-gradient(135deg,var(--purple),var(--blue));
+    font-weight:bold;
+}
+
+footer{
+    margin-top:40px;
+    padding:50px 6%;
+    background:#0b0e14;
+    border-top:1px solid #202532;
+    text-align:center;
+}
+
+.footer-logo{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:2px;
+    margin-bottom:12px;
+}
+
+footer p{
+    color:#777d89;
+    font-size:13px;
+    line-height:1.8;
+}
+
+.top-btn{
+    position:fixed;
+    bottom:22px;
+    left:22px;
+    width:45px;
+    height:45px;
+    border:0;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--purple),var(--blue));
+    color:white;
+    cursor:pointer;
+    display:none;
+    z-index:500;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@media(max-width:800px){
+
+    header{
+        height:auto;
+        padding:15px 5%;
+        flex-direction:column;
+        gap:15px;
+    }
+
+    nav{
+        gap:14px;
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .hero{
+        min-height:500px;
+        padding:55px 6%;
+    }
+
+    .hero h1{
+        font-size:39px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .featured{
+        grid-template-columns:1fr;
+        padding:20px;
+    }
+
+    .featured-image{
+        height:240px;
+    }
+
+    .movies{
+        grid-template-columns:repeat(2,1fr);
+        gap:13px;
+    }
+
+    .poster{
+        height:225px;
+    }
+
+    .movie-info{
+        padding:11px;
+    }
+
+    .movie-title{
+        font-size:14px;
+    }
+
+    .modal-body{
+        flex-direction:column;
+    }
+
+    .modal-poster{
+        width:190px;
+        height:275px;
+        margin:auto;
+    }
+}
+
+@media(max-width:430px){
+
+    .logo{
+        font-size:21px;
+    }
+
+    .hero h1{
+        font-size:32px;
+    }
+
+    .section{
+        padding:45px 5%;
+    }
+
+    .movies{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .poster{
+        height:205px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo-area">
+<div class="logo-icon">🎬</div>
+<div class="logo">CINEWORLD</div>
+</div>
+
+<nav>
+<a href="#">الرئيسية</a>
+<a href="#movies">الأفلام</a>
+<a href="#categories">التصنيفات</a>
+<a href="#popular">الأكثر شعبية</a>
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<div class="small-title">
+مرحبًا بك في CINEWORLD
+</div>
+
+<h1>
+اكتشف أفضل
+<span>الأفلام والمسلسلات</span>
+</h1>
+
+<p>
+اكتشف أفضل الأفلام والمسلسلات الأجنبية والعربية والكورية،
+وتعرف على القصص والتقييمات والتصنيفات والتريلرات الرسمية.
+</p>
+
+<div class="hero-buttons">
+<a href="#movies" class="primary-btn">🎬 استكشف الأفلام</a>
+<a href="#categories" class="secondary-btn">🎭 التصنيفات</a>
+</div>
+
+</div>
+
+</section>
+
+<section class="search-section">
+
+<div class="search-box">
+
+<input
+id="searchInput"
+type="text"
+placeholder="ابحث عن فيلم أو مسلسل..."
+oninput="searchContent()"
+>
+
+<button class="search-button" onclick="searchContent()">⌕</button>
+
+</div>
+
+</section>
+
+<section class="section" id="categories">
+
+<div class="section-header">
+<div>
+<h2 class="section-title">🎭 تصفح حسب التصنيف</h2>
+</div>
+</div>
+
+<div class="categories">
+
+<div class="category">
+<div class="category-icon">💥</div>
+<div class="category-name">أكشن</div>
+</div>
+
+<div class="category">
+<div class="category-icon">😂</div>
+<div class="category-name">كوميدي</div>
+</div>
+
+<div class="category">
+<div class="category-icon">👻</div>
+<div class="category-name">رعب</div>
+</div>
+
+<div class="category">
+<div class="category-icon">🚀</div>
+<div class="category-name">خيال علمي</div>
+</div>
+
+<div class="category">
+<div class="category-icon">❤️</div>
+<div class="category-name">رومانسي</div>
+</div>
+
+<div class="category">
+<div class="category-icon">🎭</div>
+<div class="category-name">دراما</div>
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="section-header">
+
+<div>
+<h2 class="section-title">⭐ اختيار اليوم</h2>
+<p class="section-description">
+أول فيلم موجود في قاعدة البيانات سيظهر هنا
+</p>
+</div>
+
+</div>
+
+<div class="featured">
+
+<img
+id="featuredImage"
+class="featured-image"
+src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=80"
+alt="CINEWORLD"
+>
+
+<div class="featured-content">
+
+<div class="featured-label">فيلم اليوم</div>
+
+<h2 id="featuredTitle">CINEWORLD</h2>
+
+<div class="featured-info">
+<span id="featuredYear">—</span>
+<span id="featuredRating">⭐ —</span>
+</div>
+
+<p id="featuredDescription">
+أضف أول فيلم من لوحة التحكم ليظهر هنا تلقائيًا.
+</p>
+
+<a
+id="featuredTrailer"
+href="#"
+target="_blank"
+class="primary-btn"
+style="width:max-content"
+>
+▶ مشاهدة التريلر
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section" id="movies">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">🆕 أحدث الأفلام</h2>
+
+<p class="section-description">
+الأفلام الموجودة في قاعدة بيانات CINEWORLD
+</p>
+
+</div>
+
+</div>
+
+<div class="movies" id="movieList">
+
+<div class="loading">
+جاري تحميل الأفلام...
+</div>
+
+</div>
+
+</section>
+
+<section class="section" id="popular">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">🔥 الأكثر شعبية</h2>
+
+<p class="section-description">
+أعمال مميزة من مكتبة CINEWORLD
+</p>
+
+</div>
+
+</div>
+
+<div class="movies" id="popularList">
+
+<div class="loading">
+جاري تحميل الأفلام...
+</div>
+
+</div>
+
+</section>
+
+<div class="modal" id="movieModal">
+
+<div class="modal-content">
+
+<div class="close" onclick="closeMovie()">×</div>
+
+<div class="modal-body">
+
+<img
+id="modalPoster"
+class="modal-poster"
+src=""
+alt=""
+>
+
+<div class="modal-info">
+
+<h2 id="modalTitle"></h2>
+
+<div id="modalMeta" class="modal-meta"></div>
+
+<div id="modalRating" class="rating"></div>
+
+<p id="modalDescription" class="modal-description"></p>
+
+<a
+id="modalTrailer"
+class="trailer-btn"
+target="_blank"
+rel="noopener"
+>
+▶ مشاهدة التريلر الرسمي
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+<div class="footer-logo">
+CINEWORLD
+</div>
+
+<p>
+اكتشف أفضل الأفلام والمسلسلات الأجنبية والعربية والكورية
+</p>
+
+<p style="margin-top:10px">
+معلومات وتقييمات وتريلرات رسمية لمحبي السينما
+</p>
+
+<p style="margin-top:20px">
+© 2026 CINEWORLD
+</p>
+
+</footer>
+
+<button
+class="top-btn"
+id="topBtn"
+onclick="window.scrollTo({top:0,behavior:'smooth'})"
+>
+↑
+</button>
+
+<script>
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+"https://wusbjiydskpchcqasxfo.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_IjEl2Nvojax0Ezs7FDhjkQ_CJglujOs";
+
+const supabaseClient =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================================
+   DATA
+========================================= */
+
+let allMovies = [];
+
+
+/* =========================================
+   LOAD MOVIES
+========================================= */
+
+async function loadMovies(){
+
+    const movieList =
+        document.getElementById("movieList");
+
+    const popularList =
+        document.getElementById("popularList");
+
+    try{
+
+        const { data, error } =
+            await supabaseClient
+            .from("movies")
+            .select("*")
+            .order("created_at",{ascending:false});
+
+        if(error){
+            console.error(error);
+
+            movieList.innerHTML =
+                `<div class="empty">
+                    حدث خطأ أثناء تحميل الأفلام.
+                 </div>`;
+
+            popularList.innerHTML =
+                `<div class="empty">
+                    تعذر تحميل الأفلام.
+                 </div>`;
+
+            return;
+        }
+
+        allMovies = data || [];
+
+        renderMovies(allMovies);
+
+        if(allMovies.length > 0){
+            showFeatured(allMovies[0]);
+        }else{
+            movieList.innerHTML =
+                `<div class="empty">
+                    لا توجد أفلام حاليًا.<br>
+                    أضف أول فيلم من لوحة التحكم.
+                 </div>`;
+
+            popularList.innerHTML =
+                `<div class="empty">
+                    لا توجد أفلام حاليًا.
+                 </div>`;
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        movieList.innerHTML =
+            `<div class="empty">
+                حدث خطأ في الاتصال بقاعدة البيانات.
+             </div>`;
+
+    }
+
+}
+
+
+/* =========================================
+   RENDER MOVIES
+========================================= */
+
+function renderMovies(movies){
+
+    const movieList =
+        document.getElementById("movieList");
+
+    const popularList =
+        document.getElementById("popularList");
+
+    if(!movies.length){
+
+        movieList.innerHTML =
+            `<div class="empty">
+                لم يتم العثور على أفلام.
+             </div>`;
+
+        popularList.innerHTML = "";
+
+        return;
+    }
+
+    movieList.innerHTML =
+        movies.map(movie => createMovieCard(movie)).join("");
+
+    popularList.innerHTML =
+        movies.slice(0,4)
+        .map(movie => createMovieCard(movie))
+        .join("");
+
+}
+
+
+/* =========================================
+   MOVIE CARD
+========================================= */
+
+function createMovieCard(movie){
+
+    const title =
+        escapeHTML(movie.title || "بدون عنوان");
+
+    const year =
+        movie.release_year || "—";
+
+    const description =
+        escapeHTML(
+            movie.description ||
+            "لا يوجد وصف لهذا الفيلم."
+        );
+
+    const poster =
+        movie.poster_url ||
+        "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&q=80";
+
+    const trailer =
+        movie.trailer_url || "";
+
+    const safeTitle =
+        encodeURIComponent(movie.title || "");
+
+    return `
+
+    <div
+        class="movie"
+        data-title="${safeTitle}"
+        onclick="openMovieById('${movie.id}')"
+    >
+
+        <div class="poster-container">
+
+            <img
+                class="poster"
+                src="${poster}"
+                alt="${title}"
+                loading="lazy"
+            >
+
+            <div class="poster-overlay">
+                <div class="play-icon">▶</div>
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <div class="movie-title">
+                ${title}
+            </div>
+
+            <div class="movie-meta">
+                ${year}
+            </div>
+
+            <div class="rating">
+                🎬 مشاهدة التفاصيل
+            </div>
+
+        </div>
+
+    </div>
+
+    `;
+}
+
+
+/* =========================================
+   OPEN MOVIE
+========================================= */
+
+async function openMovieById(id){
+
+    const movie =
+        allMovies.find(item =>
+            String(item.id) === String(id)
+        );
+
+    if(!movie) return;
+
+    document.getElementById("modalTitle")
+        .innerText =
+        movie.title || "بدون عنوان";
+
+    document.getElementById("modalMeta")
+        .innerText =
+        movie.release_year
+        ? "سنة الإصدار: " + movie.release_year
+        : "";
+
+    document.getElementById("modalRating")
+        .innerText =
+        "🎬 CINEWORLD";
+
+    document.getElementById("modalPoster")
+        .src =
+        movie.poster_url || "";
+
+    document.getElementById("modalDescription")
+        .innerText =
+        movie.description ||
+        "لا يوجد وصف لهذا الفيلم.";
+
+    const trailer =
+        document.getElementById("modalTrailer");
+
+    if(movie.trailer_url){
+
+        trailer.href =
+            movie.trailer_url;
+
+        trailer.style.display =
+            "inline-flex";
+
+    }else{
+
+        trailer.style.display =
+            "none";
+
+    }
+
+    document.getElementById("movieModal")
+        .style.display =
+        "flex";
+
+    document.body.style.overflow =
+        "hidden";
+}
+
+
+/* =========================================
+   FEATURED
+========================================= */
+
+function showFeatured(movie){
+
+    document.getElementById("featuredTitle")
+        .innerText =
+        movie.title || "CINEWORLD";
+
+    document.getElementById("featuredYear")
+        .innerText =
+        movie.release_year || "—";
+
+    document.getElementById("featuredDescription")
+        .innerText =
+        movie.description ||
+        "لا يوجد وصف لهذا الفيلم.";
+
+    document.getElementById("featuredImage")
+        .src =
+        movie.poster_url ||
+        "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=80";
+
+    const trailer =
+        document.getElementById("featuredTrailer");
+
+    if(movie.trailer_url){
+
+        trailer.href =
+            movie.trailer_url;
+
+        trailer.style.display =
+            "inline-block";
+
+    }else{
+
+        trailer.style.display =
+            "none";
+
+    }
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+function searchContent(){
+
+    const value =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    if(!value){
+
+        renderMovies(allMovies);
+
+        return;
+    }
+
+    const filtered =
+        allMovies.filter(movie => {
+
+            const title =
+                (movie.title || "")
+                .toLowerCase();
+
+            const description =
+                (movie.description || "")
+                .toLowerCase();
+
+            return (
+                title.includes(value) ||
+                description.includes(value)
+            );
+
+        });
+
+    renderMovies(filtered);
+}
+
+
+/* =========================================
+   CLOSE MODAL
+========================================= */
+
+function closeMovie(){
+
+    document.getElementById("movieModal")
+        .style.display =
+        "none";
+
+    document.body.style.overflow =
+        "auto";
+}
+
+
+/* =========================================
+   MODAL EVENTS
+========================================= */
+
+window.addEventListener(
+    "click",
+    function(event){
+
+        const modal =
+            document.getElementById("movieModal");
+
+        if(event.target === modal){
+            closeMovie();
+        }
+
+    }
+);
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+            closeMovie();
+        }
+
+    }
+);
+
+
+/* =========================================
+   TOP BUTTON
+========================================= */
+
+window.addEventListener(
+    "scroll",
+    function(){
+
+        const button =
+            document.getElementById("topBtn");
+
+        if(window.scrollY > 500){
+
+            button.style.display =
+                "block";
+
+        }else{
+
+            button.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   SECURITY
+========================================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+loadMovies();
+
+</script>
+
+</body>
+</html>
+```
