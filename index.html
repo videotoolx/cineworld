@@ -7,6 +7,27 @@
 
 <title>CINEWORLD | اكتشف أفضل الأفلام والمسلسلات</title>
 
+<meta name="description" content="CINEWORLD — اكتشف أفضل الأفلام والمسلسلات الأجنبية والعربية والكورية، مع معلومات الأفلام والتقييمات والتصنيفات والتريلرات الرسمية.">
+
+<meta name="keywords" content="أفلام, مسلسلات, أفلام 2026, أفلام جديدة, أفلام أكشن, أفلام رعب, أفلام كوميدي, أفلام رومانسية, أفلام خيال علمي, CINEWORLD">
+
+<meta name="author" content="CINEWORLD">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://videotoolx.github.io/cineworld/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="CINEWORLD | اكتشف أفضل الأفلام والمسلسلات">
+<meta property="og:description" content="اكتشف أفضل الأفلام والمسلسلات الأجنبية والعربية والكورية، وتعرف على القصص والتقييمات والتريلرات الرسمية.">
+<meta property="og:url" content="https://videotoolx.github.io/cineworld/">
+<meta property="og:site_name" content="CINEWORLD">
+<meta property="og:locale" content="ar_AR">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CINEWORLD | اكتشف أفضل الأفلام والمسلسلات">
+<meta name="twitter:description" content="اكتشف أفضل الأفلام والمسلسلات والتريلرات والمعلومات السينمائية على CINEWORLD.">
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -296,6 +317,7 @@ nav a:hover{
     flex-direction:column;
     justify-content:center;
     transition:.3s;
+    cursor:pointer;
 }
 
 .category:hover{
@@ -582,6 +604,23 @@ footer p{
     line-height:1.8;
 }
 
+.footer-links{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.footer-links a{
+    color:#aaa;
+    font-size:13px;
+}
+
+.footer-links a:hover{
+    color:#fff;
+}
+
 .top-btn{
     position:fixed;
     bottom:22px;
@@ -703,11 +742,11 @@ footer p{
 <header>
 
 <div class="logo-area">
-<div class="logo-icon">🎬</div>
+<div class="logo-icon" aria-hidden="true">🎬</div>
 <div class="logo">CINEWORLD</div>
 </div>
 
-<nav>
+<nav aria-label="القائمة الرئيسية">
 <a href="#">الرئيسية</a>
 <a href="#movies">الأفلام</a>
 <a href="#categories">التصنيفات</a>
@@ -715,6 +754,8 @@ footer p{
 </nav>
 
 </header>
+
+<main>
 
 <section class="hero">
 
@@ -743,18 +784,25 @@ footer p{
 
 </section>
 
-<section class="search-section">
+<section class="search-section" aria-label="البحث">
 
 <div class="search-box">
 
 <input
 id="searchInput"
-type="text"
+type="search"
+aria-label="البحث عن فيلم أو مسلسل"
 placeholder="ابحث عن فيلم أو مسلسل..."
 oninput="searchContent()"
 >
 
-<button class="search-button" onclick="searchContent()">⌕</button>
+<button
+class="search-button"
+onclick="searchContent()"
+aria-label="بحث"
+>
+⌕
+</button>
 
 </div>
 
@@ -770,32 +818,32 @@ oninput="searchContent()"
 
 <div class="categories">
 
-<div class="category">
+<div class="category" onclick="filterCategory('أكشن')">
 <div class="category-icon">💥</div>
 <div class="category-name">أكشن</div>
 </div>
 
-<div class="category">
+<div class="category" onclick="filterCategory('كوميدي')">
 <div class="category-icon">😂</div>
 <div class="category-name">كوميدي</div>
 </div>
 
-<div class="category">
+<div class="category" onclick="filterCategory('رعب')">
 <div class="category-icon">👻</div>
 <div class="category-name">رعب</div>
 </div>
 
-<div class="category">
+<div class="category" onclick="filterCategory('خيال علمي')">
 <div class="category-icon">🚀</div>
 <div class="category-name">خيال علمي</div>
 </div>
 
-<div class="category">
+<div class="category" onclick="filterCategory('رومانسي')">
 <div class="category-icon">❤️</div>
 <div class="category-name">رومانسي</div>
 </div>
 
-<div class="category">
+<div class="category" onclick="filterCategory('دراما')">
 <div class="category-icon">🎭</div>
 <div class="category-name">دراما</div>
 </div>
@@ -811,7 +859,7 @@ oninput="searchContent()"
 <div>
 <h2 class="section-title">⭐ اختيار اليوم</h2>
 <p class="section-description">
-أول فيلم موجود في قاعدة البيانات سيظهر هنا
+فيلم مميز من قاعدة بيانات CINEWORLD
 </p>
 </div>
 
@@ -823,7 +871,7 @@ oninput="searchContent()"
 id="featuredImage"
 class="featured-image"
 src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=80"
-alt="CINEWORLD"
+alt="فيلم مميز على CINEWORLD"
 >
 
 <div class="featured-content">
@@ -845,6 +893,7 @@ alt="CINEWORLD"
 id="featuredTrailer"
 href="#"
 target="_blank"
+rel="noopener noreferrer"
 class="primary-btn"
 style="width:max-content"
 >
@@ -866,7 +915,7 @@ style="width:max-content"
 <h2 class="section-title">🆕 أحدث الأفلام</h2>
 
 <p class="section-description">
-الأفلام الموجودة في قاعدة بيانات CINEWORLD
+أحدث الأفلام الموجودة في قاعدة بيانات CINEWORLD
 </p>
 
 </div>
@@ -892,7 +941,7 @@ style="width:max-content"
 <h2 class="section-title">🔥 الأكثر شعبية</h2>
 
 <p class="section-description">
-أعمال مميزة من مكتبة CINEWORLD
+الأعمال المميزة من مكتبة CINEWORLD
 </p>
 
 </div>
@@ -909,11 +958,21 @@ style="width:max-content"
 
 </section>
 
-<div class="modal" id="movieModal">
+</main>
+
+<div class="modal" id="movieModal" role="dialog" aria-modal="true">
 
 <div class="modal-content">
 
-<div class="close" onclick="closeMovie()">×</div>
+<div
+class="close"
+onclick="closeMovie()"
+role="button"
+aria-label="إغلاق"
+tabindex="0"
+>
+×
+</div>
 
 <div class="modal-body">
 
@@ -938,7 +997,7 @@ alt=""
 id="modalTrailer"
 class="trailer-btn"
 target="_blank"
-rel="noopener"
+rel="noopener noreferrer"
 >
 ▶ مشاهدة التريلر الرسمي
 </a>
@@ -965,6 +1024,11 @@ CINEWORLD
 معلومات وتقييمات وتريلرات رسمية لمحبي السينما
 </p>
 
+<div class="footer-links">
+<a href="privacy.html">سياسة الخصوصية</a>
+<a href="copyright.html">حقوق النشر</a>
+</div>
+
 <p style="margin-top:20px">
 © 2026 CINEWORLD
 </p>
@@ -975,6 +1039,7 @@ CINEWORLD
 class="top-btn"
 id="topBtn"
 onclick="window.scrollTo({top:0,behavior:'smooth'})"
+aria-label="العودة إلى أعلى الصفحة"
 >
 ↑
 </button>
@@ -1048,6 +1113,7 @@ async function loadMovies(){
         if(allMovies.length > 0){
             showFeatured(allMovies[0]);
         }else{
+
             movieList.innerHTML =
                 `<div class="empty">
                     لا توجد أفلام حاليًا.<br>
@@ -1058,6 +1124,7 @@ async function loadMovies(){
                 `<div class="empty">
                     لا توجد أفلام حاليًا.
                  </div>`;
+
         }
 
     }catch(error){
@@ -1065,6 +1132,11 @@ async function loadMovies(){
         console.error(error);
 
         movieList.innerHTML =
+            `<div class="empty">
+                حدث خطأ في الاتصال بقاعدة البيانات.
+             </div>`;
+
+        popularList.innerHTML =
             `<div class="empty">
                 حدث خطأ في الاتصال بقاعدة البيانات.
              </div>`;
@@ -1099,12 +1171,24 @@ function renderMovies(movies){
     }
 
     movieList.innerHTML =
-        movies.map(movie => createMovieCard(movie)).join("");
-
-    popularList.innerHTML =
-        movies.slice(0,4)
+        movies
         .map(movie => createMovieCard(movie))
         .join("");
+
+    popularList.innerHTML =
+        movies
+        .filter(movie => movie.popular === true)
+        .slice(0,4)
+        .map(movie => createMovieCard(movie))
+        .join("");
+
+    if(!popularList.innerHTML){
+        popularList.innerHTML =
+            movies
+            .slice(0,4)
+            .map(movie => createMovieCard(movie))
+            .join("");
+    }
 
 }
 
@@ -1131,38 +1215,40 @@ function createMovieCard(movie){
         movie.poster_url ||
         "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&q=80";
 
-    const trailer =
-        movie.trailer_url || "";
-
-    const safeTitle =
-        encodeURIComponent(movie.title || "");
+    const rating =
+        movie.rating !== null &&
+        movie.rating !== undefined
+        ? Number(movie.rating).toFixed(1)
+        : "—";
 
     return `
 
-    <div
+    <article
         class="movie"
-        data-title="${safeTitle}"
-        onclick="openMovieById('${movie.id}')"
+        onclick="openMovieById('${String(movie.id).replaceAll("'","")}')"
+        itemscope
+        itemtype="https://schema.org/Movie"
     >
 
         <div class="poster-container">
 
             <img
                 class="poster"
-                src="${poster}"
-                alt="${title}"
+                src="${escapeAttribute(poster)}"
+                alt="${title} - CINEWORLD"
                 loading="lazy"
+                itemprop="image"
             >
 
             <div class="poster-overlay">
-                <div class="play-icon">▶</div>
+                <div class="play-icon" aria-hidden="true">▶</div>
             </div>
 
         </div>
 
         <div class="movie-info">
 
-            <div class="movie-title">
+            <div class="movie-title" itemprop="name">
                 ${title}
             </div>
 
@@ -1171,12 +1257,12 @@ function createMovieCard(movie){
             </div>
 
             <div class="rating">
-                🎬 مشاهدة التفاصيل
+                ⭐ ${rating}
             </div>
 
         </div>
 
-    </div>
+    </article>
 
     `;
 }
@@ -1199,19 +1285,42 @@ async function openMovieById(id){
         .innerText =
         movie.title || "بدون عنوان";
 
+    let meta = [];
+
+    if(movie.release_year){
+        meta.push("سنة الإصدار: " + movie.release_year);
+    }
+
+    if(movie.genre){
+        meta.push("التصنيف: " + movie.genre);
+    }
+
+    if(movie.country){
+        meta.push("الدولة: " + movie.country);
+    }
+
     document.getElementById("modalMeta")
         .innerText =
-        movie.release_year
-        ? "سنة الإصدار: " + movie.release_year
-        : "";
+        meta.join(" • ");
 
     document.getElementById("modalRating")
         .innerText =
-        "🎬 CINEWORLD";
+        movie.rating !== null &&
+        movie.rating !== undefined
+        ? "⭐ " + Number(movie.rating).toFixed(1)
+        : "⭐ بدون تقييم";
+
+    const poster =
+        movie.poster_url ||
+        "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&q=80";
 
     document.getElementById("modalPoster")
-        .src =
-        movie.poster_url || "";
+        .src = poster;
+
+    document.getElementById("modalPoster")
+        .alt =
+        (movie.title || "فيلم") +
+        " - CINEWORLD";
 
     document.getElementById("modalDescription")
         .innerText =
@@ -1230,6 +1339,8 @@ async function openMovieById(id){
             "inline-flex";
 
     }else{
+
+        trailer.removeAttribute("href");
 
         trailer.style.display =
             "none";
@@ -1259,6 +1370,13 @@ function showFeatured(movie){
         .innerText =
         movie.release_year || "—";
 
+    document.getElementById("featuredRating")
+        .innerText =
+        movie.rating !== null &&
+        movie.rating !== undefined
+        ? "⭐ " + Number(movie.rating).toFixed(1)
+        : "⭐ —";
+
     document.getElementById("featuredDescription")
         .innerText =
         movie.description ||
@@ -1268,6 +1386,11 @@ function showFeatured(movie){
         .src =
         movie.poster_url ||
         "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=80";
+
+    document.getElementById("featuredImage")
+        .alt =
+        (movie.title || "فيلم مميز") +
+        " - CINEWORLD";
 
     const trailer =
         document.getElementById("featuredTrailer");
@@ -1281,6 +1404,8 @@ function showFeatured(movie){
             "inline-block";
 
     }else{
+
+        trailer.removeAttribute("href");
 
         trailer.style.display =
             "none";
@@ -1320,14 +1445,55 @@ function searchContent(){
                 (movie.description || "")
                 .toLowerCase();
 
+            const genre =
+                (movie.genre || "")
+                .toLowerCase();
+
+            const country =
+                (movie.country || "")
+                .toLowerCase();
+
             return (
                 title.includes(value) ||
-                description.includes(value)
+                description.includes(value) ||
+                genre.includes(value) ||
+                country.includes(value)
             );
 
         });
 
     renderMovies(filtered);
+}
+
+
+/* =========================================
+   CATEGORY FILTER
+========================================= */
+
+function filterCategory(category){
+
+    const filtered =
+        allMovies.filter(movie => {
+
+            const genre =
+                String(movie.genre || "")
+                .toLowerCase();
+
+            return genre.includes(
+                category.toLowerCase()
+            );
+
+        });
+
+    document.getElementById("searchInput")
+        .value = category;
+
+    renderMovies(filtered);
+
+    document.getElementById("movies")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
 }
 
 
@@ -1404,7 +1570,7 @@ window.addEventListener(
 
 
 /* =========================================
-   SECURITY
+   SECURITY HELPERS
 ========================================= */
 
 function escapeHTML(value){
@@ -1416,6 +1582,15 @@ function escapeHTML(value){
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
 
+}
+
+function escapeAttribute(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
 }
 
 
